@@ -93,6 +93,7 @@ set(GroupSrc
     src/Linux.c
     src/Unix.c
     src/Win32.c
+    src/ZipWrapper.c
     src/Wrapper.c)
 
 set(GroupTests

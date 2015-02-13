@@ -35,6 +35,7 @@ static int zipError(DFError **error, const char *format, ...)
 
 int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error)
 {
+#ifdef JANI
     char            entryName[4096];
     DFextZipHandleP zipHandle;
 
@@ -71,12 +72,13 @@ int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error)
         return zipError(error,"Zip directory is corrupt");
 
     DFextZipClose(zipHandle);
-
+#endif
     return 1;
 }
 
 static int zipAddFile(DFextZipHandleP zipHandle, const char *dest, DFBuffer *content, DFError **error)
 {
+#ifdef JANI
     if (DFextZipAppendNewFile(zipHandle, dest) < 0)
         return zipError(error,"%s: Cannot create entry in zip file",dest);
 
@@ -85,6 +87,7 @@ static int zipAddFile(DFextZipHandleP zipHandle, const char *dest, DFBuffer *con
 
     if (DFextZipCloseFile(zipHandle) <0)
         return zipError(error,"%s: Error closing entry in zip file",dest);
+#endif
     return 1;
 }
 
@@ -92,6 +95,7 @@ static int zipAddFile(DFextZipHandleP zipHandle, const char *dest, DFBuffer *con
 
 int DFZip(const char *zipFilename, DFStorage *storage, DFError **error)
 {
+#ifdef JANI
     const char **allPaths = NULL;
     DFBuffer *content = NULL;
     int ok = 0;
@@ -127,4 +131,6 @@ end:
     if (zipHandle != NULL)
         DFextZipClose(zipHandle);
     return ok;
+#endif
+    return 1;
 }

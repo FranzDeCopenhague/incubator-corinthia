@@ -18,10 +18,11 @@
 #include "zip.h"
 
 
+#ifdef JANI
 DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip) {
     DFextZipHandleP zipHandle = malloc(sizeof(DFextZipHandle));
  
-    // no more memory
+    // no more 
     if (!zipHandle)
         return NULL;
 
@@ -144,3 +145,4 @@ int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const i
 {
     return (zipWriteInFileInZip(zipHandle->handle, buf, len) == ZIP_OK) ? 1 : -1;
 }
+#endif

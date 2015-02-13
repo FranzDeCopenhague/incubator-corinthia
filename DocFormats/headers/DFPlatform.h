@@ -65,19 +65,20 @@ void DFInitOnce(DFOnce *once, DFOnceFunction fun);
 
 // Zip functions
 typedef struct {
-        void *handle;
-        int   zipFlag;
-        int   zipFirst;
+        void                  *handle;
+        struct DFDirEntryList *zipDirectoryEntries;
         } DFextZipHandle;
 typedef DFextZipHandle * DFextZipHandleP;
 
-DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip);
+DFextZipHandleP DFextZipOpen(const char *zipFilename);
+DFextZipHandleP DFextZipCreae(const char *zipFilename);
 int             DFextZipClose(DFextZipHandleP zipHandle);
 
-int             DFextZipOpenNextFile(DFextZipHandleP zipHandle, char *entryName, const int maxName);
-int             DFextZipAppendNewFile(DFextZipHandleP zipHandle, const char *entryName);
+int             DFextZipOpenFileByName(DFextZipHandleP zipHandle, char            *entryName);
+int             DFextZipOpenFileByPtr(DFextZipHandleP zipHandle,  DFextZipHandleP  entryPtr);
+int             DFextZipAppendNewFile(DFextZipHandleP zipHandle,  char            *entryName);
 int             DFextZipCloseFile(DFextZipHandleP zipHandle);
 
-int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, void *buf, const int maxLen);
+int DFextZipReadCurrentFile (DFextZipHandleP zipHandle,       void *buf, const int maxLen);
 int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const int len);
 #endif

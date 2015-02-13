@@ -1,0 +1,24 @@
+./build is the standard location for temporary build files
+
+** WINDOWS special **
+The very first time you clone the project from git, you also need to download
+our external dependencies
+in directory "external" run
+fetch_downloads.bat (or .sh)
+then
+extract_downloads.bat (or .sh)
+Now you have all the items you need to build corinthia.
+*** END ***
+
+We depend on cmake to generate the target build system
+in ./build do:
+cmake -G "<build>" ..
+where <build> is one of
+Visual Studio 10 2010 = Generates Visual Studio 10 (VS 2010) project files.
+Visual Studio 11 2012 = Generates Visual Studio 11 (VS 2012) project files.
+Visual Studio 12 2013 = Generates Visual Studio 12 (VS 2013) project files.
+Visual Studio 14 2015 = Generates Visual Studio 14 (VS 2015) project files.
+Unix Makefiles = Generates standard UNIX makefiles.
+
+Other build directories is possible.
+Other <build> is possible but not tested

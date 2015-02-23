@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "WordConverter.h"
@@ -557,14 +560,13 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
-                                       const char *idPrefix, WordPackage *package)
+static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage, WordPackage *package)
 {
     WordConverter *converter = (WordConverter *)calloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
     converter->abstractStorage = DFStorageRetain(abstractStorage);
     assert(DFStorageFormat(converter->abstractStorage) == DFFileFormatHTML);
-    converter->idPrefix = DFStrDup(idPrefix);
+    converter->idPrefix = strdup("word");
     converter->package = WordPackageRetain(package);
     converter->styles = WordSheetNew(converter->package->styles);
     converter->numbering = WordNumberingNew(converter->package);
@@ -674,9 +676,7 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
     return node;
 }
 
-int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
-                     const char *idPrefix, WordPackage *package,
-                     DFError **error)
+int WordConverterGet(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, DFError **error)
 {
     if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
@@ -692,7 +692,7 @@ int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
     int haveFields = Word_simplifyFields(package);
     Word_mergeRuns(package);
 
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,package);
     converter->haveFields = haveFields;
     WordAddNbsps(converter->package->document);
     WordFixLists(converter);
@@ -810,9 +810,7 @@ static void addMissingDefaultStyles(WordConverter *converter)
     }
 }
 
-int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
-                     const char *idPrefix, WordPackage *package,
-                     DFError **error)
+int WordConverterPut(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, DFError **error)
 {
     if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
@@ -828,7 +826,7 @@ int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
     HTML_normalizeDocument(html);
     HTML_pushDownInlineProperties(html->docNode);
 
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,package);
 
     // FIXME: Need a more reliable way of telling whether this is a new document or not - it could be that the
     // document already existed (with styles set up) but did not have any content

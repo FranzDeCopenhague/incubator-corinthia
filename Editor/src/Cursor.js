@@ -1,16 +1,19 @@
-// Copyright 2011-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 var Cursor_ensurePositionVisible;
 var Cursor_ensureCursorVisible;
@@ -905,6 +908,22 @@ var Cursor_insertEndnote;
             cursorX = null;
     }
 
+    function moveRangeOutsideOfNote(range)
+    {
+        var node = range.start.node;
+        var offset = range.start.offset;
+
+        for (var anc = node; anc != null; anc = anc.parentNode) {
+            if (isNoteNode(anc) && (anc.parentNode != null)) {
+                node = anc.parentNode;
+                offset = DOM_nodeOffset(anc)+1;
+                return new Range(node,offset,node,offset);
+            }
+        }
+
+        return range;
+    }
+
     function insertNote(className,content)
     {
         var footnote = DOM_createElement(document,"span");
@@ -912,6 +931,7 @@ var Cursor_insertEndnote;
         DOM_appendChild(footnote,DOM_createTextNode(document,content));
 
         var range = Selection_get();
+        range = moveRangeOutsideOfNote(range);
         Formatting_splitAroundSelection(range,false);
 
         var pos = Position_preferElementPosition(range.start);

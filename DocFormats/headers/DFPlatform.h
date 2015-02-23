@@ -70,14 +70,14 @@ typedef struct {
         } DFextZipHandle;
 typedef DFextZipHandle * DFextZipHandleP;
 
-DFextZipHandleP DFextZipOpen(const char *zipFilename);
-DFextZipHandleP DFextZipCreae(const char *zipFilename);
-int             DFextZipClose(DFextZipHandleP zipHandle);
+DFextZipHandleP DFextZipOpen  (const char     *zipFilename);
+DFextZipHandleP DFextZipCreate(const char     *zipFilename);
+int             DFextZipClose (DFextZipHandleP zipHandle);
 
 int             DFextZipOpenFileByName(DFextZipHandleP zipHandle, char            *entryName);
-int             DFextZipOpenFileByPtr(DFextZipHandleP zipHandle,  DFextZipHandleP  entryPtr);
-int             DFextZipAppendNewFile(DFextZipHandleP zipHandle,  char            *entryName);
-int             DFextZipCloseFile(DFextZipHandleP zipHandle);
+int             DFextZipOpenFileByPtr (DFextZipHandleP zipHandle, DFextZipHandleP  entryPtr);
+int             DFextZipAppendNewFile (DFextZipHandleP zipHandle, char            *entryName);
+int             DFextZipCloseFile     (DFextZipHandleP zipHandle);
 
 int DFextZipReadCurrentFile (DFextZipHandleP zipHandle,       void *buf, const int maxLen);
 int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const int len);

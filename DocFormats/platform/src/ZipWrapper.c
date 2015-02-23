@@ -16,14 +16,79 @@
 #include "zip.h"
 
 
-#ifdef JANI
-DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip) {
+DFextZipHandleP DFextZipOpen(const char *zipFilename)
+{
     DFextZipHandleP zipHandle = malloc(sizeof(DFextZipHandle));
- 
+
     // no more memory
     if (!zipHandle)
         return NULL;
 
+
+    return zipHandle;
+}
+
+
+
+DFextZipHandleP DFextZipCreate(const char *zipFilename)
+{
+    return NULL;
+}
+
+
+
+int DFextZipClose(DFextZipHandleP zipHandle)
+{
+    return 0;
+}
+
+
+
+int DFextZipOpenFileByName(DFextZipHandleP zipHandle, char *entryName)
+{
+    return 0;
+}
+
+
+
+int DFextZipOpenFileByPtr(DFextZipHandleP zipHandle, DFextZipHandleP  entryPtr)
+{
+    return 0;
+}
+
+
+
+int DFextZipAppendNewFile(DFextZipHandleP zipHandle, char *entryName)
+{
+    return 0;
+}
+
+
+
+int DFextZipCloseFile(DFextZipHandleP zipHandle)
+{
+    return 0;
+}
+
+
+
+int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, void *buf, const int maxLen)
+{
+    return 0;
+}
+
+
+
+int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const int len)
+{
+    return 0;
+}
+
+
+
+
+#ifdef JANI
+DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip) {
     // Open file
     zipHandle->zipFirst = 1;
     zipHandle->zipFlag = doUnzip;
